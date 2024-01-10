@@ -1,0 +1,43 @@
+This project is an examination of the date found in a 2021 top 50 songs Spotify database to aggrigate the date into usable forms. The database table was obtained from Kaggle https://www.kaggle.com/datasets/equinxx/spotify-top-50-songs-in-2021?resource=download. This CSV file was used to be the database and table for the information of musical trends in the year 2021.
+
+
+what song has the greatest danceability?
+
+SELECT artist_name, 
+ROUND(avg(danceability), 3) as average_danceability
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+ORDER BY average_danceability DESC; 
+LIMIT 10;
+
+Who are the top 10 artists with the most popularity
+
+SELECT artist_name, popularity 
+FROM BIT_DB.Spotifydata
+ORDER BY popularity DESC
+LIMIT 10
+
+Selecting all songs with a score of 90 or more in popularity and with a duration longer than 150000
+
+SELECT artist_name, track_name, popularity, duration_ms 
+FROM BIT_DB.Spotifydata
+WHERE popularity >= 90
+AND duration_ms > 150000
+ORDER BY duration_ms DESC
+
+What is the longest song released at this time? 
+
+SELECT 
+    artist_name,
+    track_name, 
+    duration_ms
+FROM BIT_DB.Spotifydata
+ORDER BY duration_ms DESC
+LIMIT 1;
+
+Selecting the average loudness from the top 10 longest songs
+
+SELECT AVG(loudness) FROM BIT_DB.Spotifydata
+WHERE duration_ms = (SELECT duration_ms FROM BIT_DB.Spotifydata
+ORDER BY duration_ms DESC
+LIMIT 5)
